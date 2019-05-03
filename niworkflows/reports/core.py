@@ -1,11 +1,9 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-
 # vi: set ft=python sts=4 ts=4 sw=4 et:
 """
-Reports builder for BIDS-Apps
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Reports builder for BIDS-Apps.
 
+Generalizes report generation across BIDS-Apps
 
 """
 from pathlib import Path
@@ -38,9 +36,7 @@ reloading the report in your browser.</object>
 
 
 class Element(object):
-    """
-    Just a basic component of a report
-    """
+    """Just a basic component of a report"""
 
     def __init__(self, name, title=None):
         self.name = name
@@ -154,26 +150,20 @@ class Reportlet(Element):
                 is_static = config.get('static', True)
                 contents = SVG_SNIPPET[is_static].format(linked_svg)
 
-                if not is_static:
-                    # Remove height and width attributes from initial <svg> tag
-                    svglines = out_file.read_text().splitlines()
-                    expr = re.compile(r' (height|width)=["\'][0-9]+(\.[0-9]*)?[a-z]*["\']')
-                    for l, line in enumerate(svglines[:6]):
-                        if line.strip().startswith('<svg'):
-                            newline = expr.sub('', line)
-                            svglines[l] = newline
-                            out_file.write_text('\n'.join(svglines))
-                            break
-
-                # # Remove height and width attributes from initial <svg> tag
-                # svglines = out_file.read_text().splitlines()
-                # expr = re.compile(r' (height|width)=["\'][0-9]+(\.[0-9]*)?[a-z]*["\']')
-                # for l, line in enumerate(svglines[:6]):
-                #     if line.strip().startswith('<svg'):
-                #         newline = expr.sub('', line)
-                #         svglines[l] = newline
-                #         out_file.write_text('\n'.join(svglines))
-                #         break
+                # Our current implementations of dynamic reportlets do this themselves,
+                # however I'll leave the code here since this is potentially something we
+                # will want to transfer from every figure generator to this location.
+                # The following code misses setting preserveAspecRatio="xMidYMid meet"
+                # if not is_static:
+                #     # Remove height and width attributes from initial <svg> tag
+                #     svglines = out_file.read_text().splitlines()
+                #     expr = re.compile(r' (height|width)=["\'][0-9]+(\.[0-9]*)?[a-z]*["\']')
+                #     for l, line in enumerate(svglines[:6]):
+                #         if line.strip().startswith('<svg'):
+                #             newline = expr.sub('', line)
+                #             svglines[l] = newline
+                #             out_file.write_text('\n'.join(svglines))
+                #             break
 
             if contents:
                 self.components.append((contents, desc_text))
@@ -183,9 +173,7 @@ class Reportlet(Element):
 
 
 class SubReport(Element):
-    """
-    SubReports are sections within a Report
-    """
+    """SubReports are sections within a Report."""
 
     def __init__(self, name, isnested=False, reportlets=None, title=''):
         self.name = name
