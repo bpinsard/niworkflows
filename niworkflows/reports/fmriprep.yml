@@ -21,6 +21,7 @@ sections:
       space(s). Hover on the panels with the mouse pointer to transition between both
       spaces.
     subtitle: Spatial normalization of the anatomical T1w reference
+    static: false
   - bids: {datatype: anat, desc: reconall, suffix: T1w}
     caption: Surfaces (white and pial) reconstructed with FreeSurfer (<code>recon-all</code>)
       overlaid on the participant's T1w template.
@@ -29,7 +30,7 @@ sections:
   ordering: session
   reportlets:
   - bids: {datatype: fmap, desc: brain, suffix: mask}
-    caption: Brain extraction of the magnitude image from the fieldmap
+    caption: Brain extraction of the magnitude image from the fieldmap.
     subtitle: Skull stripped magnitude image
 - name: Functional
   ordering: session,task,run
@@ -40,24 +41,29 @@ sections:
     caption: Results of affine coregistration between the magnitude image of the fieldmap
       and the reference EPI image
     subtitle: Fieldmap to EPI registration
+    static: false
   - bids: {datatype: func, desc: fieldmap, suffix: bold}
-    caption: Overlaid on the reference EPI image
+    caption: Overlaid on the reference EPI image.
     subtitle: Fieldmap
+    static: false
   - bids: {datatype: func, desc: sdc, suffix: bold}
     caption: Results of performing susceptibility distortion correction (SDC) on the
       EPI
     subtitle: Susceptibility distortion correction
+    static: false
   - bids: {datatype: func, desc: forcedsyn, suffix: bold}
     caption: The dataset contained some fieldmap information, but the argument <code>--force-syn</code>
       was used. The higher-priority SDC method was used. Here, we show the results
       of performing SyN-based SDC on the EPI for comparison.
     subtitle: Experimental fieldmap-less susceptibility distortion correction
+    static: false
   - bids: {datatype: func, desc: flirtnobbr, suffix: bold}
     caption: FSL <code>flirt</code> was used to generate transformations from EPI
       space to T1 Space - BBR refinement rejected. Note that Nearest Neighbor interpolation
       is used in the reportlets in order to highlight potential spin-history and other
       artifacts, whereas final images are resampled using Lanczos interpolation.
     subtitle: Alignment of functional and anatomical MRI data (volume based)
+    static: false
   - bids: {datatype: func, desc: coreg, suffix: bold}
     caption: <code>mri_coreg</code> (FreeSurfer) was used to generate transformations
       from EPI space to T1 Space - <code>bbregister</code> refinement rejected. Note
@@ -65,6 +71,7 @@ sections:
       potential spin-history and other artifacts, whereas final images are resampled
       using Lanczos interpolation.
     subtitle: Alignment of functional and anatomical MRI data (volume based)
+    static: false
   - bids: {datatype: func, desc: flirtbbr, suffix: bold}
     caption: FSL <code>flirt</code> was used to generate transformations from EPI-space
       to T1w-space - The white matter mask calculated with FSL <code>fast</code> (brain
@@ -72,12 +79,14 @@ sections:
       is used in the reportlets in order to highlight potential spin-history and other
       artifacts, whereas final images are resampled using Lanczos interpolation.
     subtitle: Alignment of functional and anatomical MRI data (surface driven)
+    static: false
   - bids: {datatype: func, desc: bbregister, suffix: bold}
     caption: <code>bbregister</code> was used to generate transformations from EPI-space
       to T1w-space. Note that Nearest Neighbor interpolation is used in the reportlets
       in order to highlight potential spin-history and other artifacts, whereas final
       images are resampled using Lanczos interpolation.
     subtitle: Alignment of functional and anatomical MRI data (surface driven)
+    static: false
   - bids: {datatype: func, desc: rois, suffix: bold}
     caption: Brain mask calculated on the BOLD signal (red contour), along with the
       masks used for a/tCompCor.<br />The aCompCor mask (magenta contour) is a conservative
@@ -114,7 +123,7 @@ sections:
       (Cosine bases and PCA-derived CompCor components are inherently orthogonal.)
       Right: magnitude of the correlation between each confound time series and the
       mean global signal. Strong correlations might be indicative of partial volume
-      effects and can inform decisions about feature orthogonalization prior to 
+      effects and can inform decisions about feature orthogonalization prior to
       confound regression.
     subtitle: Correlations among nuisance regressors
   - bids: {datatype: func, desc: aroma, suffix: bold}
